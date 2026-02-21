@@ -1,3 +1,8 @@
+<!--
+GitHub-safe version: This project does NOT include any real Firebase credentials.
+To run the game, create your own Firebase project and replace the placeholder values
+inside firebaseConfig in index.html.
+-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -206,7 +211,7 @@
 </head>
 <body>
   <header>
-    <img src="TAAS_logo.png" alt="TAAS Logo" style="height:48px; width:auto;"/>
+    <img src="logo.png" alt="Logo" style="height:48px; width:auto;"/>
     <div>
       <h1>Space Bingo</h1>
       <div class="small"></div>
@@ -281,17 +286,21 @@
 <script>
 /************* Your Firebase Config *************/
 const firebaseConfig = {
-  apiKey: "AIzaSyAxBq8_kfK6Iy59fDCXEZ9Vi10GQFftmQA",
-  authDomain: "taas-space-bingo.firebaseapp.com",
-  projectId: "taas-space-bingo",
-  storageBucket: "taas-space-bingo.firebasestorage.app",
-  messagingSenderId: "841671624150",
-  appId: "1:841671624150:web:f386765f5f01330fa1d077"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase (compat version)
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+if(firebaseConfig.apiKey === "YOUR_API_KEY"){
+  console.warn("Firebase not configured. Please add your own Firebase project config to run multiplayer features.");
+} else {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = (firebase.apps && firebase.apps.length) ? firebase.firestore() : null;
 
 const GRID_SIZE = 6;
 const TOTAL_CELLS = GRID_SIZE * GRID_SIZE;
@@ -604,7 +613,7 @@ function renderClaimsTable() {
 window.addEventListener("DOMContentLoaded",()=>{(async()=>{
   let userId=localStorage.getItem("bingo_user");
   if(!userId){ userId=prompt("Enter your name or ID:"); localStorage.setItem("bingo_user",userId); }
-  const HOST_SECRET="Shreyaas";
+  const HOST_SECRET="HOST_SECRET";
   const isHost=(userId===HOST_SECRET);
   if(isHost){
     document.querySelector(".host-panel").style.display="block";
